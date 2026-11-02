@@ -1,91 +1,62 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#11131a">
-<title>熱量與三大營養素追蹤器</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#11131a">
+<title>每日熱量與營養追蹤</title>
 <style>
 :root{color-scheme:dark;--bg:#11131a;--card:#1c1f2e;--border:#303447;--muted:#9298aa;--blue:#3b82f6}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#e5e7eb;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}
-main{max-width:540px;margin:auto;padding:18px 15px 42px}header{text-align:center;padding:10px 0 20px}h1{font-size:21px;margin:0;color:white}#date{font-size:12px;color:var(--muted);margin-top:6px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:21px;margin-bottom:16px}.center{text-align:center}.label{font-size:12px;color:var(--muted)}
-.big{font-size:42px;font-weight:800;color:white;margin:4px 0}.sub{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px;padding-top:15px;border-top:1px solid var(--border);text-align:center}
-.grid strong{display:block;color:white;margin-top:4px;font-size:14px}.grid small{font-size:11px;color:var(--muted)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}button{border:0;border-radius:12px;padding:11px 13px;cursor:pointer;font-weight:650;color:white;background:#303447}button.primary{background:var(--blue);flex:1;min-width:130px}button:hover{filter:brightness(1.08)}
-h2{font-size:14px;color:var(--muted);margin:0 0 11px}.meal{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:15px;margin-bottom:9px}
-.meal-name{font-size:14px;font-weight:650;color:white;overflow-wrap:anywhere}.macro{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6}.cal{font-weight:750;color:#60a5fa;text-align:right;white-space:nowrap}.delete{background:transparent;color:#9ca3af;padding:5px;margin-left:5px}
-.empty{text-align:center;padding:25px;color:#777f92;background:#161824;border:1px dashed var(--border);border-radius:16px;font-size:13px}
-dialog{border:1px solid var(--border);border-radius:22px;background:var(--card);color:#e5e7eb;width:calc(100% - 26px);max-width:440px;padding:21px}dialog::backdrop{background:#000b}
-form{display:grid;gap:12px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input{width:100%;background:var(--bg);border:1px solid #454b60;border-radius:10px;padding:12px;color:white;font-size:15px}
-.macro-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.form-actions{display:flex;gap:8px;margin-top:4px}.form-actions button{flex:1}
-.calc{background:#11131a;border:1px solid var(--border);border-radius:12px;padding:12px;font-size:13px;line-height:1.7}.calc strong{color:#60a5fa}.note{font-size:11px;color:#8b91a3;line-height:1.5;margin-top:15px}
-</style>
-</head>
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#e5e7eb;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}main{max-width:540px;margin:auto;padding:18px 15px 42px}
+header{text-align:center;padding:10px 0 18px}h1{font-size:21px;margin:0;color:white}#date-label{font-size:12px;color:var(--muted);margin-top:6px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:20px;margin-bottom:16px}.center{text-align:center}.label{font-size:12px;color:var(--muted)}.big{font-size:42px;font-weight:800;color:white;margin:4px 0}.sub{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:17px;padding-top:15px;border-top:1px solid var(--border);text-align:center}.grid strong{display:block;color:white;margin-top:4px}.grid small{font-size:11px;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}button{border:0;border-radius:12px;padding:11px 13px;cursor:pointer;font-weight:650;color:white;background:#303447}button.primary{background:var(--blue);flex:1;min-width:130px}button:hover{filter:brightness(1.08)}
+input,select{background:var(--bg);border:1px solid #454b60;border-radius:10px;padding:11px;color:white;font-size:14px;width:100%}
+.datepicker{display:flex;align-items:center;gap:8px;margin-bottom:16px}.datepicklabel{font-size:12px;color:var(--muted);white-space:nowrap}
+h2{font-size:14px;color:var(--muted);margin:0 0 11px}.meal{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:15px;margin-bottom:9px}.meal-name{font-size:14px;font-weight:650;color:white;overflow-wrap:anywhere}.macro{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6}.cal{font-weight:750;color:#60a5fa;text-align:right;white-space:nowrap}.delete{background:transparent;color:#9ca3af;padding:5px;margin-left:5px}.empty{text-align:center;padding:25px;color:#777f92;background:#161824;border:1px dashed var(--border);border-radius:16px;font-size:13px}
+dialog{border:1px solid var(--border);border-radius:22px;background:var(--card);color:#e5e7eb;width:calc(100% - 26px);max-width:440px;padding:21px}dialog::backdrop{background:#000b}form{display:grid;gap:12px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}.macro-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.form-actions{display:flex;gap:8px;margin-top:4px}.form-actions button{flex:1}.calc{background:#11131a;border:1px solid var(--border);border-radius:12px;padding:12px;font-size:13px;line-height:1.7}.calc strong{color:#60a5fa}.note{font-size:11px;color:#8b91a3;line-height:1.5;margin-top:15px}
+</style></head>
 <body><main>
-<header><h1>今日熱量與營養追蹤</h1><div id="date"></div></header>
-<section class="card">
- <div class="center"><div class="label">剩餘熱量</div><div class="big" id="remaining">2300</div><div class="sub">目標 2300 kcal · 已攝取 <span id="eaten">0</span> kcal</div></div>
- <div class="grid">
-  <div><div class="label">碳水</div><strong><span id="carb">0</span> <small>/ 287 g</small></strong><small id="carb-kcal">0 kcal</small></div>
-  <div><div class="label">蛋白質</div><strong><span id="pro">0</span> <small>/ 115 g</small></strong><small id="pro-kcal">0 kcal</small></div>
-  <div><div class="label">脂肪</div><strong><span id="fat">0</span> <small>/ 76 g</small></strong><small id="fat-kcal">0 kcal</small></div>
- </div>
- <div class="calc" style="margin-top:15px">營養素熱量：碳水 × 4 + 蛋白質 × 4 + 脂肪 × 9<br>
- <strong id="macro-total">三大營養素合計：0 kcal</strong></div>
-</section>
-<div class="actions"><button class="primary" id="add">＋ 新增餐點</button><button id="export">匯出備份</button><button id="import">匯入還原</button><button id="clear">清空紀錄</button></div>
-<h2>飲食紀錄</h2><div id="list"></div>
-<p class="note">此工具依輸入的三大營養素計算熱量：碳水 4 kcal/g、蛋白質 4 kcal/g、脂肪 9 kcal/g。食品標示或資料庫熱量可能因纖維、糖醇、四捨五入等因素略有差異。熱量目標僅供紀錄參考，不必把它當成限制飲食的硬性規則。</p>
+<header><h1>每日熱量與營養追蹤</h1><div id="date-label"></div></header>
+<div class="datepicker"><span class="datepicklabel">查看日期</span><input id="day-picker" type="date"></div>
+<section class="card"><div class="center"><div class="label">剩餘熱量</div><div class="big" id="remaining">2300</div><div class="sub">目標 2300 kcal · 已攝取 <span id="eaten">0</span> kcal</div></div>
+<div class="grid">
+<div><div class="label">碳水</div><strong><span id="carb">0</span> g</strong><small id="carb-kcal">0 kcal</small></div>
+<div><div class="label">蛋白質</div><strong><span id="pro">0</span> g</strong><small id="pro-kcal">0 kcal</small></div>
+<div><div class="label">脂肪</div><strong><span id="fat">0</span> g</strong><small id="fat-kcal">0 kcal</small></div></div>
+<div class="calc" style="margin-top:15px">碳水 × 4 + 蛋白質 × 4 + 脂肪 × 9<br><strong id="macro-total">三大營養素合計：0 kcal</strong></div></section>
+<div class="actions"><button class="primary" id="add">＋ 新增餐點</button><button id="export">匯出備份</button><button id="import">匯入還原</button></div>
+<h2 id="list-heading">當日飲食紀錄</h2><div id="list"></div>
+<p class="note">每天紀錄會依日期分開保存。切換日期可查看過去紀錄；新的一天會自動從 2300 kcal 開始。數值為估算，僅供參考。</p>
 </main>
-<dialog id="modal"><h2 style="font-size:18px;color:white;margin-bottom:15px">新增飲食紀錄</h2>
-<form id="form">
+<dialog id="modal"><h2 style="font-size:18px;color:white;margin-bottom:15px">新增飲食紀錄</h2><form id="form">
 <div><label for="name">食物名稱</label><input id="name" required maxlength="120" placeholder="例如：雞肉飯"></div>
-<div class="macro-inputs">
-<div><label for="c">碳水 (g)</label><input id="c" type="number" min="0" step="any" inputmode="decimal" value="0" required></div>
-<div><label for="p">蛋白質 (g)</label><input id="p" type="number" min="0" step="any" inputmode="decimal" value="0" required></div>
-<div><label for="f">脂肪 (g)</label><input id="f" type="number" min="0" step="any" inputmode="decimal" value="0" required></div>
-</div>
-<div class="calc">這份餐點估算熱量：<strong id="preview">0 kcal</strong><br><small>由三大營養素自動計算，不用另外輸入熱量。</small></div>
-<div class="form-actions"><button type="button" id="cancel">取消</button><button class="primary" type="submit">加入紀錄</button></div>
+<div class="macro-inputs"><div><label for="c">碳水 (g)</label><input id="c" type="number" min="0" step="any" inputmode="decimal" value="0" required></div><div><label for="p">蛋白質 (g)</label><input id="p" type="number" min="0" step="any" inputmode="decimal" value="0" required></div><div><label for="f">脂肪 (g)</label><input id="f" type="number" min="0" step="any" inputmode="decimal" value="0" required></div></div>
+<div class="calc">這份餐點估算熱量：<strong id="preview">0 kcal</strong></div><div class="form-actions"><button type="button" id="cancel">取消</button><button class="primary" type="submit">加入紀錄</button></div>
 </form></dialog>
 <script>
-const TARGET=2300, KEY='macro_calorie_tracker_v3';
-let meals=[];
-const $=id=>document.getElementById(id);
-const val=id=>Math.max(0,Number($(id).value)||0);
-const kcal=m=>4*(Number(m.carb)||0)+4*(Number(m.pro)||0)+9*(Number(m.fat)||0);
-const sum=k=>meals.reduce((s,m)=>s+(Number(m[k])||0),0);
-const fmt=n=>Number(n.toFixed(1)).toString();
-function save(){try{localStorage.setItem(KEY,JSON.stringify(meals))}catch(e){alert('儲存失敗，請匯出備份保存。')}}
-function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');meals=Array.isArray(x)?x:[]}catch(e){meals=[]}}
-function updatePreview(){$('preview').textContent=fmt(4*val('c')+4*val('p')+9*val('f'))+' kcal'}
+const TARGET=2300,KEY='macro_calorie_daily_v4';let diary={};const $=id=>document.getElementById(id);
+const dateKey=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+let selected=dateKey();const entries=()=>diary[selected]||(diary[selected]=[]);
+const val=id=>Math.max(0,Number($(id).value)||0),fmt=n=>Number(n.toFixed(1)).toString();
+const mealKcal=m=>4*m.carb+4*m.pro+9*m.fat;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(diary))}catch(e){alert('儲存失敗，請匯出備份')}}
+function load(){try{const raw=localStorage.getItem(KEY);if(raw){const v=JSON.parse(raw);if(v&&typeof v==='object'&&!Array.isArray(v))diary=v;return;}\n// 舊版資料：將先前的餐點清單轉移到今天（營養素照舊）\nconst old=JSON.parse(localStorage.getItem('macro_calorie_tracker_v3')||'[]');if(Array.isArray(old)&&old.length){diary[dateKey()]=old.map(m=>({id:String(m.id||Date.now()+Math.random()),name:String(m.name||'餐點'),carb:Number(m.carb)||0,pro:Number(m.pro)||0,fat:Number(m.fat)||0}));localStorage.setItem(KEY,JSON.stringify(diary));}}catch(e){diary={}}}
+function preview(){$('preview').textContent=fmt(4*val('c')+4*val('p')+9*val('f'))+' kcal'}
 function render(){
- const c=sum('carb'),p=sum('pro'),f=sum('fat'),total=4*c+4*p+9*f;
- $('eaten').textContent=fmt(total);$('remaining').textContent=fmt(TARGET-total);
+ const ms=entries(),c=ms.reduce((s,m)=>s+m.carb,0),p=ms.reduce((s,m)=>s+m.pro,0),f=ms.reduce((s,m)=>s+m.fat,0),cal=4*c+4*p+9*f;
+ $('date-label').textContent=selected===dateKey()?'今天：'+selected:selected;
+ $('remaining').textContent=fmt(TARGET-cal);$('eaten').textContent=fmt(cal);
  $('carb').textContent=fmt(c);$('pro').textContent=fmt(p);$('fat').textContent=fmt(f);
- $('carb-kcal').textContent=fmt(c*4)+' kcal';$('pro-kcal').textContent=fmt(p*4)+' kcal';$('fat-kcal').textContent=fmt(f*9)+' kcal';
- $('macro-total').textContent='三大營養素合計：'+fmt(total)+' kcal';
- const list=$('list');list.replaceChildren();
- if(!meals.length){const e=document.createElement('div');e.className='empty';e.textContent='今天還沒有紀錄';list.append(e);return}
- meals.forEach(m=>{
-  const row=document.createElement('div');row.className='meal';const left=document.createElement('div');left.style.minWidth='0';
-  const name=document.createElement('div');name.className='meal-name';name.textContent=m.name;
-  const detail=document.createElement('div');detail.className='macro';detail.textContent=`碳水 ${fmt(m.carb)}g · 蛋白質 ${fmt(m.pro)}g · 脂肪 ${fmt(m.fat)}g`;
-  left.append(name,detail);const right=document.createElement('div');right.style.display='flex';right.style.alignItems='center';
-  const calories=document.createElement('div');calories.className='cal';calories.textContent=fmt(kcal(m))+' kcal';
-  const del=document.createElement('button');del.className='delete';del.textContent='✕';del.setAttribute('aria-label','刪除');del.onclick=()=>{meals=meals.filter(x=>x.id!==m.id);save();render()};
-  right.append(calories,del);row.append(left,right);list.append(row)
- })
+ $('carb-kcal').textContent=fmt(c*4)+' kcal';$('pro-kcal').textContent=fmt(p*4)+' kcal';$('fat-kcal').textContent=fmt(f*9)+' kcal';$('macro-total').textContent='三大營養素合計：'+fmt(cal)+' kcal';
+ $('list-heading').textContent=selected===dateKey()?'今日飲食紀錄':selected+' 飲食紀錄';
+ const list=$('list');list.replaceChildren();if(!ms.length){const e=document.createElement('div');e.className='empty';e.textContent='這一天還沒有紀錄';list.append(e);return}
+ ms.forEach(m=>{const row=document.createElement('div');row.className='meal';const left=document.createElement('div');left.style.minWidth='0';const name=document.createElement('div');name.className='meal-name';name.textContent=m.name;const detail=document.createElement('div');detail.className='macro';detail.textContent=`碳水 ${fmt(m.carb)}g · 蛋白質 ${fmt(m.pro)}g · 脂肪 ${fmt(m.fat)}g`;left.append(name,detail);const right=document.createElement('div');right.style.display='flex';right.style.alignItems='center';const calEl=document.createElement('div');calEl.className='cal';calEl.textContent=fmt(mealKcal(m))+' kcal';const del=document.createElement('button');del.className='delete';del.textContent='✕';del.onclick=()=>{diary[selected]=entries().filter(x=>x.id!==m.id);save();render()};right.append(calEl,del);row.append(left,right);list.append(row)})
 }
-$('add').onclick=()=>{$('form').reset();updatePreview();$('modal').showModal()};
-$('cancel').onclick=()=>$('modal').close();
-['c','p','f'].forEach(id=>$(id).addEventListener('input',updatePreview));
-$('form').addEventListener('submit',e=>{e.preventDefault();meals.push({id:Date.now().toString()+Math.random(),name:$('name').value.trim(),carb:val('c'),pro:val('p'),fat:val('f')});save();render();$('modal').close()});
-$('export').onclick=async()=>{const text=JSON.stringify(meals);try{await navigator.clipboard.writeText(text);alert('備份碼已複製，請貼到記事本保存')}catch{prompt('請複製備份碼：',text)}};
-$('import').onclick=()=>{const raw=prompt('貼上備份碼');if(!raw)return;try{const a=JSON.parse(raw);if(!Array.isArray(a)||!a.every(m=>m&&typeof m.name==='string'&&['carb','pro','fat'].every(k=>Number.isFinite(Number(m[k]))&&Number(m[k])>=0)))throw 0;meals=a.map(m=>({id:String(m.id||Date.now()+Math.random()),name:m.name,carb:Number(m.carb),pro:Number(m.pro),fat:Number(m.fat)}));save();render();alert('匯入成功')}catch{alert('備份格式錯誤')}};
-$('clear').onclick=()=>{if(confirm('確定清空所有紀錄？')){meals=[];save();render()}};
-const d=new Date();$('date').textContent=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}（今日）`;
-load();render();updatePreview();
+$('day-picker').value=selected;$('day-picker').max=dateKey();$('day-picker').onchange=e=>{selected=e.target.value||dateKey();render()};
+$('add').onclick=()=>{if(selected!==dateKey()){alert('只能新增今天的餐點。查看過去日期時，請先切回今天。');return}$('form').reset();preview();$('modal').showModal()};
+$('cancel').onclick=()=>$('modal').close();['c','p','f'].forEach(id=>$(id).addEventListener('input',preview));
+$('form').onsubmit=e=>{e.preventDefault();entries().push({id:String(Date.now())+Math.random(),name:$('name').value.trim(),carb:val('c'),pro:val('p'),fat:val('f')});save();render();$('modal').close()};
+$('export').onclick=async()=>{const t=JSON.stringify(diary);try{await navigator.clipboard.writeText(t);alert('每日備份已複製，請貼到記事本保存')}catch{prompt('複製以下備份：',t)}};
+$('import').onclick=()=>{const t=prompt('貼上每日備份');if(!t)return;try{const obj=JSON.parse(t);if(!obj||typeof obj!=='object'||Array.isArray(obj))throw 0;diary=obj;save();render();alert('匯入成功')}catch{alert('備份格式錯誤')}};
+load();render();preview();
 </script></body></html>
